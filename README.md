@@ -9,7 +9,7 @@ Orkut was a social networking service owned and operated by Google in its later 
 
 Project developed based on [Alura](https://alura.com.br/])'s ["Imersão React"](https://www.alura.com.br/imersao-react/) event. Different from the original project, this one was developed entirely in TypeScript and adapted to a standard UI Clone reality.
 
-The Figma page that based this application UI can be found [here]([https://www.figma.com/file/xHF0n0qxiE2rqjqAILiBUB/Alurakut?node-id=58%3A0).
+The Figma page that based this application UI can be found [here](https://www.figma.com/file/xHF0n0qxiE2rqjqAILiBUB/Alurakut?node-id=58%3A0).
 
 
 
