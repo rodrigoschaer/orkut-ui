@@ -1,6 +1,15 @@
 import styled from 'styled-components'
 
-const Box = styled.div`
+type BoxProps = {
+    input?: {
+        name?: string
+        type?: string
+        placeHolder?: string
+        ariaLabel?: string
+    }
+}
+
+const Box = styled.div<BoxProps>`
     background: #ffffff;
     border-radius: 8px;
     padding: 16px;
