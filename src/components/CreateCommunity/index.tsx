@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { FormEvent, useState } from 'react'
 
-const CreateCommunity = () => {
+type CreateFormProps = {
+    communities?: string[]
+}
+
+const CreateCommunity = (props: CreateFormProps) => {
+    const [newCommunity, setNewCommunity] = useState(props.communities)
+
+    const handleSubmitForm = (e: FormEvent) => {
+        e.preventDefault()
+        console.log(e)
+
+        setNewCommunity(props.communities)
+    }
+
     return (
-        <form>
+        <form onSubmit={handleSubmitForm}>
             <div>
                 <input
                     placeholder="Type your new community name."

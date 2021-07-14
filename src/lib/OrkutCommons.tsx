@@ -22,13 +22,15 @@ export function OrkutMenu({ githubUser }: any) {
     return (
         <OrkutMenu.Wrapper isMenuOpen={isMenuOpen}>
             <div className="container">
-                <OrkutMenu.Logo src={`${BASE_URL}/logo.svg`} />
+                <OrkutMenu.Logo
+                    src={`https://upload.wikimedia.org/wikipedia/commons/8/8e/Logo_ORKUT.svg`}
+                />
 
                 <nav style={{ flex: 1 }}>
                     {[
-                        { name: 'Inicio', slug: '/' },
-                        { name: 'Amigos', slug: '/amigos' },
-                        { name: 'Comunidades', slug: '/comunidades' }
+                        { name: 'Home', slug: '/' },
+                        { name: 'Friends', slug: '/friends' },
+                        { name: 'Communities', slug: '/communities' }
                     ].map(menuItem => (
                         <Link
                             key={`key__${menuItem.name.toLocaleLowerCase()}`}
@@ -40,9 +42,9 @@ export function OrkutMenu({ githubUser }: any) {
                 </nav>
 
                 <nav>
-                    <a href={`/logout`}>Sair</a>
+                    <a href={`/logout`}>Logout</a>
                     <div>
-                        <input placeholder="Pesquisar no Orkut" />
+                        <input placeholder="Search" />
                     </div>
                 </nav>
 
@@ -207,19 +209,19 @@ export function OrkutProfileSidebarMenuDefault() {
             <nav>
                 <a href="/">
                     <img src={`${BASE_URL}/icons/user.svg`} />
-                    Perfil
+                    Profile
                 </a>
                 <a href="/">
                     <img src={`${BASE_URL}/icons/book.svg`} />
-                    Recados
+                    Scraps
                 </a>
                 <a href="/">
                     <img src={`${BASE_URL}/icons/camera.svg`} />
-                    Fotos
+                    Photos
                 </a>
                 <a href="/">
                     <img src={`${BASE_URL}/icons/sun.svg`} />
-                    Depoimentos
+                    Testimonials
                 </a>
             </nav>
             <hr />
@@ -230,7 +232,7 @@ export function OrkutProfileSidebarMenuDefault() {
                 </a>
                 <a href="/logout">
                     <img src={`${BASE_URL}//icons/logout.svg`} />
-                    Sair
+                    Logout
                 </a>
             </nav>
         </OrkutProfileSidebarMenuDefault.Wrapper>
