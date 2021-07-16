@@ -21,3 +21,4 @@ The main technologies used to develop this applications were:
 * React
 * Next.js 
 
+Built as a serveless application using Next.js and DatoCMS. Querying custom API using GraphQL.
