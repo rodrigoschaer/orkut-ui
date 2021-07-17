@@ -8,11 +8,14 @@ export default async function requestsReceivers(req, res) {
     //     data: 'SomeData'
     // })
     if (req.method === 'POST') {
+        //Lacks validation
+
         const recordCreated = await client.items.create({
             itemType: '972271',
-            title: 'Test Community',
-            image: 'https://github.com/rodrigoschaer.png',
-            creatorSlug: 'rodrigoschaer'
+            ...req.body
+            // title: 'Test Community',
+            // image: 'https://github.com/rodrigoschaer.png',
+            // creatorSlug: 'rodrigoschaer'
         })
 
         res.json({

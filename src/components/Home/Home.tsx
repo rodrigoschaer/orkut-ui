@@ -38,14 +38,12 @@ const FollowingBox = (props: FollowingProps) => {
                 {props.title} ({props.items.length}):
             </h2>
             <ul>
-                {props.items.map(currentItem => {
+                {props.items.slice(0, 6).map(currentItem => {
                     return (
                         <li key={currentItem.id}>
-                            <a href={`/users/${currentItem}`}>
-                                <img
-                                    src={`https://github.com/${currentItem}.png`}
-                                />
-                                <span>{currentItem}</span>
+                            <a href={`/following/${currentItem.id}`}>
+                                <img src={currentItem.avatar_url} />
+                                <span>{currentItem.login}</span>
                             </a>
                         </li>
                     )
@@ -56,13 +54,13 @@ const FollowingBox = (props: FollowingProps) => {
 }
 
 const Home = () => {
-    const profilePicture = 'rodrigoschaer'
-
+    const profileUser = 'rodrigoschaer'
     const inspirations = ['angelabauer', 'whysofast', 'diego3g']
-
     const [following, setFollowing] = useState([])
+    const [newCommunity, setNewCommunity] = useState([])
 
-    React.useEffect(function () {
+    useEffect(() => {
+        //API GITHUB
         fetch('https://api.github.com/users/rodrigoschaer/following')
             .then(function (serverAnswer) {
                 return serverAnswer.json()
@@ -70,15 +68,32 @@ const Home = () => {
             .then(function (completeAnswer) {
                 setFollowing(completeAnswer)
             })
+        //API GraphQL DATO CMS
+        fetch('https://graphql.datocms.com/', {
+            method: 'POST',
+            headers: {
+                Authorization: 'e252101ef7ce63a2ed2f3bd1c7785d',
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            body: JSON.stringify({
+                query: `query {
+                allCommunities {
+                  id
+                  title
+                  image
+                  creatorSlug
+                }
+              }`
+            })
+        })
+            .then(response => response.json())
+            .then(completeResponse => {
+                const serverCommunity = completeResponse.data.allCommunities
+                console.log(serverCommunity)
+                setNewCommunity(serverCommunity)
+            })
     }, [])
-
-    const [newCommunity, setNewCommunity] = useState([
-        {
-            id: '13123123123123125',
-            title: 'I Hate to get up early',
-            image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
-        }
-    ])
 
     const handleCreateCommunity = (event: SyntheticEvent) => {
         event.preventDefault()
@@ -92,13 +107,24 @@ const Home = () => {
                 : formData.get('image').toString()
 
         const community = {
-            id: new Date().toISOString(),
             title: formData.get('title').toString(),
-            image: isRandom
+            image: isRandom,
+            creatorSlug: profileUser
         }
 
-        const updatedCommunities = [community, ...newCommunity]
-        setNewCommunity(updatedCommunities)
+        fetch('api/communities', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(community)
+        }).then(async (res: Response) => {
+            const data = await res.json()
+            console.log(`server response is: ${data.recordCreated}`)
+            const community = data.recordCreated
+            const updatedCommunities = [community, ...newCommunity]
+            setNewCommunity(updatedCommunities)
+        })
     }
 
     console.log('seguidores antes do return', following)
@@ -112,7 +138,7 @@ const Home = () => {
                     className="profileArea"
                     style={{ gridArea: 'profileArea' }}
                 >
-                    <ProfileSideBar githubUser={profilePicture} />
+                    <ProfileSideBar githubUser={profileUser} />
                 </div>
                 <div
                     className="welcomeArea"
