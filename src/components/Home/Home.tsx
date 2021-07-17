@@ -4,6 +4,8 @@ import Box from '../Box'
 import ProfileSideBar from '../ProfileSideBar'
 import { ProfileRelationsBoxWrapper } from '../ProfileRelations'
 import { OrkutMenu, OrkutNostalgicIconSet } from '../../lib/OrkutCommons'
+import nookies from 'nookies'
+import jwt from 'jsonwebtoken'
 
 type UserData = {
     avatar_url: string
@@ -53,8 +55,9 @@ const FollowingBox = (props: FollowingProps) => {
     )
 }
 
-const Home = () => {
-    const profileUser = 'rodrigoschaer'
+const Home = (props: { githubUser: string }) => {
+    const profileUser = props.githubUser
+    console.log('props: ', props.githubUser)
     const inspirations = ['angelabauer', 'whysofast', 'diego3g']
     const [following, setFollowing] = useState([])
     const [newCommunity, setNewCommunity] = useState([])
@@ -218,6 +221,28 @@ const Home = () => {
             </MainGrid>
         </>
     )
+}
+
+export async function getServerSideProps(ctx) {
+    const cookies = nookies.get(ctx)
+    const token = cookies.USER_TOKEN
+    const decodedToken = jwt.decode(token)
+    const githubUser = decodedToken?.githubUser
+    console.log(githubUser)
+    if (!githubUser) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {
+            githubUser
+        }
+    }
 }
 
 export default Home
